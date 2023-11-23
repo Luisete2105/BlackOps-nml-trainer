@@ -144,20 +144,20 @@ create_huds(){
 	    level.dogs_spawns.alpha = 1.0;
     level.dogs_spawns.label = "^7Dogs can spawn: ^5";
 
-	level.sally_shoots = NewHudElem();
-        level.sally_shoots.hidewheninmenu = true;
-	    level.sally_shoots.horzAlign = "left";
-	    level.sally_shoots.vertAlign = "top";
-	    level.sally_shoots.alignX = "left";
-	    level.sally_shoots.alignY = "top";
-	    level.sally_shoots.x = 10;
-	    level.sally_shoots.y = 145;
-	    level.sally_shoots.foreground = true;
-	    level.sally_shoots.font = "default";
-	    level.sally_shoots.fontScale = 1.5;
-	    level.sally_shoots.color = ( 1.0, 1.0, 1.0 );        
-	    level.sally_shoots.alpha = 1.0;
-    level.sally_shoots.label = "^7Sally shoots: ^5";
+	level.sally_shots = NewHudElem();
+        level.sally_shots.hidewheninmenu = true;
+	    level.sally_shots.horzAlign = "left";
+	    level.sally_shots.vertAlign = "top";
+	    level.sally_shots.alignX = "left";
+	    level.sally_shots.alignY = "top";
+	    level.sally_shots.x = 10;
+	    level.sally_shots.y = 145;
+	    level.sally_shots.foreground = true;
+	    level.sally_shots.font = "default";
+	    level.sally_shots.fontScale = 1.5;
+	    level.sally_shots.color = ( 1.0, 1.0, 1.0 );        
+	    level.sally_shots.alpha = 1.0;
+    level.sally_shots.label = "^7Sally shots: ^5";
 
     level.zombie_counter thread zombie_counter();
 
@@ -190,7 +190,7 @@ luisete_credits(){
             level.luisete_credits.alpha = 1;
             level.luisete_credits.color = (1,1,1);
             level.luisete_credits.hidewheninmenu = 1;
-        level.luisete_credits.label = "NML Trainer V1 made by ^1Luis^3ete^12105^7! link on ^0Github^7 and ^6Discord^7 for support";
+        level.luisete_credits.label = "NML Trainer V1.1 made by ^1Luis^3ete^12105^7! link on ^0Github^7 and ^6Discord^7 for support";
 
         level thread flashing();
     }
@@ -243,7 +243,7 @@ infgod(){
 
 }
 
-get_sally_shoots(){
+get_sally_shots(){
 
 	if(level.zombie_health % 950) extra = 1;
 	else extra = 0;
@@ -314,12 +314,12 @@ nml_round_manager()
 		while( zombies.size >= max_zombies )
 		{
 			level.dogs_spawns setText("Zombies cap hit!");
-			level.sally_shoots setValue( get_sally_shoots() );
+			level.sally_shots setValue( get_sally_shots() );
 			zombies = GetAiSpeciesArray( "axis", "all" );
 			wait( 0.5 );
 		}
 
-		level.sally_shoots setValue( get_sally_shoots() );
+		level.sally_shots setValue( get_sally_shots() );
 
         level.dev1 setText(mode);
 

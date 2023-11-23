@@ -22,3 +22,7 @@ player thread infgod();
 If you want to report a bug, give a suggestion or something on discord here is the link
 https://discord.gg/pKavjsHUpP
 
+Changelog:
+# 1.1
+-Grammar correction.
+
