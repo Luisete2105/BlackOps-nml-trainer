@@ -9,9 +9,16 @@ init()
     //return; //uncomment the return if you want to disable the full script
     level endon( "game_ended" );
 
-    //Check in case the script loads when it shouldnt
+    //Checks in case the script loads when it shouldnt
     if ( GetDvar( "zombiemode" ) != "1" ) return;
     if(level.script != "zombie_moon") return;
+
+
+	if(!isDefined(level.luisete_trainer)) level.luisete_trainer = "No mans land trainer";
+	else{
+		level thread show_warning();
+		return;
+	}
 
     level thread onplayerconnect();
 
@@ -33,7 +40,7 @@ onplayerconnect()
 	    player thread onplayerspawned();
 
 		//if you want infinite ammo and godmode uncomment the line below
-        //player thread infgod();
+        player thread infgod();
 
 	}
 }
@@ -48,6 +55,99 @@ onplayerspawned()
         self waittill( "spawned_player" );
         self iPrintLn( "Welcome ^6"+self.playername+"^7 to ^1Lui^3se^1te's^7 NML trainer!" );
     }
+
+}
+
+// Shows error if there is a trainer loaded already
+show_warning(){
+	level endon( "game_ended" );
+	level notify( "Warning" );
+	level endon( "Warning" );
+
+	flag_wait( "starting final intro screen fadeout" );
+    wait 2.15;
+
+	level.background = NewHudElem(); 
+		level.background.x = 0; 
+		level.background.y = 45; 
+		level.background.alignX = "center"; 
+		level.background.alignY = "top"; 	
+		level.background.horzAlign = "center"; 
+		level.background.vertAlign = "top"; 
+		level.background.foreground = false;
+		level.background SetShader( "black", 300, 100 );
+		level.background.sort = 0;
+		level.background.hidewheninmenu = 1;
+	level.background.alpha = 0; 
+
+	level.Warning1 = NewHudElem(); 
+		level.Warning1.x = 0; 
+		level.Warning1.y = 50; 
+		level.Warning1.alignX = "center"; 
+		level.Warning1.alignY = "top"; 	
+		level.Warning1.horzAlign = "center"; 
+		level.Warning1.vertAlign = "top"; 
+		level.Warning1.foreground = false;
+		level.Warning1.fontScale = 3;
+		level.Warning1 SetText("ERROR, you have more");
+		level.Warning1.sort = 2;
+		level.Warning1.hidewheninmenu = 1;
+	level.Warning1.alpha = 0;
+
+	level.Warning2 = NewHudElem(); 
+		level.Warning2.x = 0; 
+		level.Warning2.y = 100; 
+		level.Warning2.alignX = "center"; 
+		level.Warning2.alignY = "top"; 	
+		level.Warning2.horzAlign = "center"; 
+		level.Warning2.vertAlign = "top"; 
+		level.Warning2.foreground = false;
+		level.Warning2.fontScale = 3;
+		level.Warning2 SetText("than 1 trainer loaded!");
+		level.Warning2.sort = 2;
+		level.Warning2.hidewheninmenu = 1;
+	level.Warning2.alpha = 0; 
+
+	level.background fadeOverTime(5);
+	level.background.alpha = 1;
+
+	level.Warning1 fadeOverTime(5);
+	level.Warning1.alpha = 1;
+	level.Warning2 fadeOverTime(5);
+	level.Warning2.alpha = 1;
+
+	wait 5;
+
+	level.background fadeOverTime(2);
+	level.background.alpha = 0;
+
+	level.Warning1 fadeOverTime(2);
+	level.Warning1.alpha = 0;
+	level.Warning2 fadeOverTime(2);
+	level.Warning2.alpha = 0;
+	
+	wait 2;
+
+	level.Warning1 setText("Current trainer is ");
+	level.Warning2 setText(level.luisete_trainer);
+
+	level.background fadeOverTime(2);
+	level.background.alpha = 1;
+
+	level.Warning1 fadeOverTime(2);
+	level.Warning1.alpha = 1;
+	level.Warning2 fadeOverTime(2);
+	level.Warning2.alpha = 1;
+
+	wait 2;
+
+	level.background fadeOverTime(2);
+	level.background.alpha = 0;
+
+	level.Warning1 fadeOverTime(2);
+	level.Warning1.alpha = 0;
+	level.Warning2 fadeOverTime(2);
+	level.Warning2.alpha = 0;
 
 }
 
@@ -144,20 +244,20 @@ create_huds(){
 	    level.dogs_spawns.alpha = 1.0;
     level.dogs_spawns.label = "^7Dogs can spawn: ^5";
 
-	level.sally_shots = NewHudElem();
-        level.sally_shots.hidewheninmenu = true;
-	    level.sally_shots.horzAlign = "left";
-	    level.sally_shots.vertAlign = "top";
-	    level.sally_shots.alignX = "left";
-	    level.sally_shots.alignY = "top";
-	    level.sally_shots.x = 10;
-	    level.sally_shots.y = 145;
-	    level.sally_shots.foreground = true;
-	    level.sally_shots.font = "default";
-	    level.sally_shots.fontScale = 1.5;
-	    level.sally_shots.color = ( 1.0, 1.0, 1.0 );        
-	    level.sally_shots.alpha = 1.0;
-    level.sally_shots.label = "^7Sally shots: ^5";
+	level.sally_shoots = NewHudElem();
+        level.sally_shoots.hidewheninmenu = true;
+	    level.sally_shoots.horzAlign = "left";
+	    level.sally_shoots.vertAlign = "top";
+	    level.sally_shoots.alignX = "left";
+	    level.sally_shoots.alignY = "top";
+	    level.sally_shoots.x = 10;
+	    level.sally_shoots.y = 145;
+	    level.sally_shoots.foreground = true;
+	    level.sally_shoots.font = "default";
+	    level.sally_shoots.fontScale = 1.5;
+	    level.sally_shoots.color = ( 1.0, 1.0, 1.0 );        
+	    level.sally_shoots.alpha = 1.0;
+    level.sally_shoots.label = "^7Sally shoots: ^5";
 
     level.zombie_counter thread zombie_counter();
 
@@ -167,6 +267,7 @@ create_huds(){
 	level.general_timer setTenthsTimerUp(0.05);
 
 }
+
 
 // Credits scripts
 luisete_credits(){
@@ -183,14 +284,15 @@ luisete_credits(){
             level.luisete_credits.aligny = "top";
             level.luisete_credits.horzalign = "user_center";
             level.luisete_credits.vertalign = "user_top";
-            //level.luisete_credits.x = -350;
             level.luisete_credits.x = 0;
             level.luisete_credits.y = 5;
             level.luisete_credits.fontscale = 2;
             level.luisete_credits.alpha = 1;
             level.luisete_credits.color = (1,1,1);
             level.luisete_credits.hidewheninmenu = 1;
-        level.luisete_credits.label = "NML Trainer V1.1 made by ^1Luis^3ete^12105^7! link on ^0Github^7 and ^6Discord^7 for support";
+        level.luisete_credits.label = "NML Trainer V1.2 made by ^1Luis^3ete^12105^7! link on ^0Github^7 and ^6Discord^7 for support";
+		
+		
 
         level thread flashing();
     }
@@ -243,7 +345,7 @@ infgod(){
 
 }
 
-get_sally_shots(){
+get_sally_shoots(){
 
 	if(level.zombie_health % 950) extra = 1;
 	else extra = 0;
@@ -314,12 +416,12 @@ nml_round_manager()
 		while( zombies.size >= max_zombies )
 		{
 			level.dogs_spawns setText("Zombies cap hit!");
-			level.sally_shots setValue( get_sally_shots() );
+			level.sally_shoots setValue( get_sally_shoots() );
 			zombies = GetAiSpeciesArray( "axis", "all" );
 			wait( 0.5 );
 		}
 
-		level.sally_shots setValue( get_sally_shots() );
+		level.sally_shoots setValue( get_sally_shoots() );
 
         level.dev1 setText(mode);
 
@@ -599,9 +701,9 @@ nml_round_manager()
 //3arc scripts
 nml_round_never_ends()
 {
-	wait( 2 );
-	
 	level endon( "restart_round" );
+	
+	wait 2;
 
 	while( flag("enter_nml") )
 	{
@@ -612,8 +714,9 @@ nml_round_never_ends()
 			level.zombie_total = 100;
 			return;
 		}
-		wait( 1 );
+		wait 1;
 	}
+
 }
 
 screen_shake_manager( next_round_time )
