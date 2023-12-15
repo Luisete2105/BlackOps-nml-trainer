@@ -26,3 +26,7 @@ Changelog:
 # 1.1
 -Grammar correction.
 
+#1.2
+-More Grammar correction(Thanks Tdotmott!).
+-Now trainer checks if there is another Luisete trainer active so they dont overlap each other.
+
