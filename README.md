@@ -24,9 +24,8 @@ https://discord.gg/pKavjsHUpP
 
 Changelog:
 # 1.1
--Grammar correction.
+-Grammar correction(Thanks Tdotmott!).
 
-#1.2
--More Grammar correction(Thanks Tdotmott!).
+# 1.2
 -Now trainer checks if there is another Luisete trainer active so they dont overlap each other.
 
